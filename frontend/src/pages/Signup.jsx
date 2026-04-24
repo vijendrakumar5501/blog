@@ -1,20 +1,65 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "../components/ui/label";
+import  hero1 from "../assets/hero1.jpeg"
+
 import React from "react";
+import { Input } from "@/components/ui/input";
 
 const Signup = () => {
   return (
     <div className="flex h-scren md:pt-14 md:h-[760px]">
       <div className="hidden md:block">
-        <img src="" alt="" className="h-[700px]" />
+        <img src={hero1} alt="" className="h-[700px]" />
       </div>
 
       <div className="flex justify-center items-center flex-1 px-4 md:px-0">
         <Card className="w-full max-w-md p-6 shadow-lg rounded-2xl dark:bg-gray-800 dark:border-gary-600">
           <CardHeader>
             <CardTitle>
-              <h1 className="text-center text-xl font-semibold">create an account</h1>
+              <h1 className="text-center text-xl font-semibold">
+                create an account
+              </h1>
+              <p className="mt-2 text-sm font-serif text-center dark:text-gray-300">
+                ENter Your details below to cretae Account
+              </p>
             </CardTitle>
           </CardHeader>
+          <CardContent>
+            <form action="" className="space-y-4">
+              <div className="flex gap-3">
+                <div className=" flex  flex-col gap-1">
+                  <Label htmlFor="fname" className="w-full">
+                    First Name
+                  </Label>
+                  <Input
+                    className="dark:border-gray-500 dark:bg-gray-900"
+                    type="text"
+                    placeholder="Enter First Name"
+                    name="fname"
+                  />
+                </div>
+                <div className=" flex  flex-col gap-1 ">
+                  <Label htmlFor="lname" className="">
+                    Last Name
+                  </Label>
+                  <Input
+                    className="dark:border-gray-500 dark:bg-gray-900"
+                    type="text"
+                    placeholder="Enter Last Name"
+                    name="lname"
+                  />
+                </div>
+              </div>
+              <div className="">
+                <Label type="email" >Email</Label>
+                <Input 
+                placeholder="Enter Email"
+                type="email"
+                name="email"
+                />
+              </div>
+            </form>
+          </CardContent>
         </Card>
       </div>
     </div>
