@@ -1,11 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "../components/ui/label";
-import  hero1 from "../assets/hero1.jpeg"
+import hero1 from "../assets/hero1.jpeg";
 
-import React from "react";
-import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
+  // logic
+
+  const [showPass, setShowPass] = useState(false);
+
   return (
     <div className="flex h-scren md:pt-14 md:h-[760px]">
       <div className="hidden md:block">
@@ -17,10 +24,10 @@ const Signup = () => {
           <CardHeader>
             <CardTitle>
               <h1 className="text-center text-xl font-semibold">
-                create an account
+                Create an Account
               </h1>
-              <p className="mt-2 text-sm font-serif text-center dark:text-gray-300">
-                ENter Your details below to cretae Account
+              <p className="mt-2 text-sm font-serif text-center dark:text-gray-300 text-center">
+                Enter Your details below to cretae Account
               </p>
             </CardTitle>
           </CardHeader>
@@ -51,13 +58,40 @@ const Signup = () => {
                 </div>
               </div>
               <div className="">
-                <Label type="email" >Email</Label>
-                <Input 
-                placeholder="Enter Email"
-                type="email"
-                name="email"
-                />
+                <Label type="email">Email</Label>
+                <Input placeholder="Enter Email" type="email" name="email" />
               </div>
+              <div className="relative">
+                <Label type="password">Password</Label>
+                <Input
+                  placeholder="Enter Password"
+                  type={showPass ?"text":"password"}
+                  name="password"
+                  className="dark:border-gray-600 dark:bg-gray-900"
+                />
+                <button
+                  onClick={() => {
+                    (setShowPass(!showPass), console.log(showPass));
+                  }}
+                  type="button"
+                  className="absolute right-3 top-6 text-gray-500"
+                >
+                 {
+                  showPass?  <Eye size={20}  />: <EyeOff size={20}  />
+                 }
+                </button>
+              </div>
+              <Button type="submit" className="w-full">
+                Sign Up
+              </Button>
+              <p className="flex justify-center">
+                Already have account?{" "}
+                <Link to={"/login"}>
+                  <span className="underline cursor-pointer hover:text-gray-800 dark:hover:text-gray-100">
+                    SignIn
+                  </span>
+                </Link>
+              </p>
             </form>
           </CardContent>
         </Card>
