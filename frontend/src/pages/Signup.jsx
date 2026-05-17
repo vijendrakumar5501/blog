@@ -2,16 +2,53 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "../components/ui/label";
 import hero1 from "../assets/hero1.jpeg";
 
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Toast } from "@base-ui/react";
+import { toast } from "sonner";
 
 const Signup = () => {
   // logic
 
   const [showPass, setShowPass] = useState(false);
+
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUser((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/user/register", {
+        method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      
+        body:JSON.stringify(user)
+      });
+        const data=res.json();
+        if(!res.ok)
+          throw new Error(data.message);
+
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="flex h-scren md:pt-14 md:h-[760px]">
@@ -32,17 +69,18 @@ const Signup = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form action="" className="space-y-4">
+            <form action="" className="space-y-4" onSubmit={handleSubmit}>
               <div className="flex gap-3">
                 <div className=" flex  flex-col gap-1">
                   <Label htmlFor="fname" className="w-full">
                     First Name
                   </Label>
                   <Input
+                    onChange={handleChange}
                     className="dark:border-gray-500 dark:bg-gray-900"
                     type="text"
                     placeholder="Enter First Name"
-                    name="fname"
+                    name="firstName"
                   />
                 </div>
                 <div className=" flex  flex-col gap-1 ">
@@ -50,22 +88,29 @@ const Signup = () => {
                     Last Name
                   </Label>
                   <Input
+                    onChange={handleChange}
                     className="dark:border-gray-500 dark:bg-gray-900"
                     type="text"
                     placeholder="Enter Last Name"
-                    name="lname"
+                    name="lastName"
                   />
                 </div>
               </div>
               <div className="">
                 <Label type="email">Email</Label>
-                <Input placeholder="Enter Email" type="email" name="email" />
+                <Input
+                  onChange={handleChange}
+                  placeholder="Enter Email"
+                  type="email"
+                  name="email"
+                />
               </div>
               <div className="relative">
                 <Label type="password">Password</Label>
                 <Input
+                  onChange={handleChange}
                   placeholder="Enter Password"
-                  type={showPass ?"text":"password"}
+                  type={showPass ? "text" : "password"}
                   name="password"
                   className="dark:border-gray-600 dark:bg-gray-900"
                 />
@@ -76,9 +121,7 @@ const Signup = () => {
                   type="button"
                   className="absolute right-3 top-6 text-gray-500"
                 >
-                 {
-                  showPass?  <Eye size={20}  />: <EyeOff size={20}  />
-                 }
+                  {showPass ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
               </div>
               <Button type="submit" className="w-full">
