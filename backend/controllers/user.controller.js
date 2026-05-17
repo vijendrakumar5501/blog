@@ -7,7 +7,9 @@ export const register = async (req, res) => {
 
 
     try {
+        console.log(req.body)
         const { firstName, lastName, email, password } = req.body;
+        
         if (!firstName || !lastName || !email || !password) {
             return res.status(400).json({
                 success: false,
